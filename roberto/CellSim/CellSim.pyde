@@ -6,6 +6,9 @@ CELL_SIZE = 20 # dimensione in pixel della singola cella
 
 matrix = Matrix(CELL_SIZE, MATRIX_SIZE)
 matrix.add_cell(Cell('HELLOWORLD'), 1, 1)
+matrix.add_cell(Cell('HELLOWORLD'), 5, 13)
+matrix.add_cell(Cell('HELLOWORLD'), 13, 5)
+matrix.add_cell(Cell('HELLOWORLD'), 32, 21)
 
 def setup():
     size(MATRIX_SIZE*CELL_SIZE + 1, MATRIX_SIZE*CELL_SIZE + 1)
