@@ -7,6 +7,7 @@ class Cell:
         self.dna_duplicate = None
         self.neighbours_dna = []
         self.status = "new"
+        random.seed()
 
     def set_grown_status(self):
         self.status = "grown"
@@ -18,9 +19,6 @@ class Cell:
         self.neighbours_dna = []
 
     def move(local_area):
-        """
-        Data una sottomatrice 3x3 restituisce l'indice della cella in cui ci si muove
-        """
         move = False
         i = 0
         choices = random.shuffle(range(9))
@@ -46,17 +44,17 @@ class Cell:
         neighbours.append(dna)
 
     def reproduce(self):
-        print(1.1)
-        partner = []
-        if len(self.neighbours_dna) > 0:
-            partner = random.choice(self.neighbours_dna)
-        print("partner: " + str(partner))
-        print("type(partner): " + str(type(partner)))
+        if not self.death():
+            partner = []
+            if len(self.neighbours_dna) > 0:
+                partner = random.choice(self.neighbours_dna)
 
-        print("self.dna: " + str(self.dna))
-        print("type(self.dna): " + str(type(self.dna)))
+            join_dna = self.dna + partner
+            son_dna = random.sample(join_dna, self.settings.DNA_LENGTH)
 
-        join_dna = self.dna + partner
-        son_dna = random.sample(join_dna, self.settings.DNA_LENGTH)
+            return Cell(self.settings, son_dna)
+        else:
+            return None
 
-        return Cell(self.settings, son_dna)
+    def death(self):
+        return random.random() < self.settings.DEATH_RATE

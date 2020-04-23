@@ -1,3 +1,5 @@
+import string
+
 class Matrix:
     def __init__(self, settings):
         self.settings = settings
@@ -35,21 +37,29 @@ class Matrix:
             line(0, i*self.settings.CELL_SIZE, max_dim, i*self.settings.CELL_SIZE)
             
         noStroke()
-        fill(255, 0, 0)
 
-        print("#####################################################")
-        self.debug_print_matrix()
-        print("#####################################################")
+        # print("#####################################################")
+        # self.debug_print_matrix()
+        # print("#####################################################")
         for j in range(0, self.settings.MATRIX_SIZE):
             s = ""
             for i in range(0, self.settings.MATRIX_SIZE):
-                if self.cells[j][i] is not None:
-                    print("A!")
+                cell = self.cells[j][i]
+                if cell is not None:
+                    fraction_per_letter = 255/self.settings.DNA_LENGTH
+                    r = string.count(cell.dna, "R") * fraction_per_letter
+                    g = string.count(cell.dna, "G") * fraction_per_letter
+                    b = string.count(cell.dna, "B") * fraction_per_letter
+                    fill(r, g, b)
                     ellipse((self.settings.CELL_SIZE)*i + self.settings.CELL_SIZE/2, (self.settings.CELL_SIZE)*j + self.settings.CELL_SIZE/2, self.settings.CELL_SIZE, self.settings.CELL_SIZE)
 
     def add_cell(self, cell, x, y):
         self.cells[x][y] = cell
         self.free_slots -= 1
+
+    def kill_cell(self, x, y):
+        self.cells[x][y] = None
+        self.free_slots += 1
 
     def setup_neighbours(self):
         for i in range(0, self.settings.MATRIX_SIZE):
@@ -66,29 +76,28 @@ class Matrix:
 
     def reproduction_round(self):
         print("Starting new reproduction round")
+        deaths = 0
         for i in range(0, self.settings.MATRIX_SIZE):
             for j in range(0, self.settings.MATRIX_SIZE):
 
                 current_cell = self.cells[i][j]
                 if current_cell is not None and self.free_slots > 0:
                     if current_cell.is_not_new():
-                        print("--------------------------")
-                        print(1)
-                        print("parent_place: " + str(i) + ":" + str(j))
                         son = current_cell.reproduce()
-                        son_place = self.find_place_for_son(i, j)
-                        print("putting son in: " + str(son_place))
-                        if son_place is not None:
-                            self.add_cell(son, son_place[0], son_place[1])
+                        if son is not None:
+                            son_place = self.find_place_for_son(i, j)
+                            if son_place is not None:
+                                self.add_cell(son, son_place[0], son_place[1])
+                        else:
+                            self.kill_cell(i, j)
+                            deaths += 1
+        print("deaths: " + str(deaths))
 
         # Add each new cell as neighbour
         # ToDo check duplicates
         self.setup_neighbours()
 
     def find_place_for_son(self, ci, cj):
-        print("\nI'm trying to add a cell centered in " + str(ci) + "," + str(cj))
-        self.debug_print_matrix()
-
         a = max(ci-1, 0)
         b = min(ci+2, self.settings.MATRIX_SIZE)
         c = max(cj-1, 0)
@@ -98,5 +107,5 @@ class Matrix:
                 if self.cells[i][j] is None:
                     return (i, j)
 
-        print("No place for son found")
+        # print("No place for son found")
         return None
