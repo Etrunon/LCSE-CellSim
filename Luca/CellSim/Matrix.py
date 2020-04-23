@@ -7,14 +7,14 @@ class Matrix:
 
     def debug_print_matrix(self):
         for i in range(self.settings.MATRIX_SIZE):
-            r = ""
+            riga = ""
             for j in range(self.settings.MATRIX_SIZE):
                 if self.cells[i][j] is not None:
-                    r += "Cell "
+                    riga += "Cell "
                 else:
-                    r += "None "
+                    riga += "None "
 
-            print(r)
+            print(riga)
 
     def render(self):
         # Pulisco l'immagine e imposto il colore di sfondo
@@ -84,22 +84,32 @@ class Matrix:
         # ToDo check duplicates
         self.setup_neighbours()
 
-    def find_place_for_son(self, i, j):
-        print("\nI'm trying to add a cell centered in " + str(i) + "," + str(j))
-        self.debug_print_matrix()
-        print("Center: " + str(i)+":"+str(j))
-        for ii in range(i - 1, i + 2):
-            for jj in range(j - 1, j + 2):
-                if ii < 0 or jj < 0:
-                    print("Skipping lower search " + str(ii) + "," + str(jj))
-                elif ii > self.settings.MATRIX_SIZE or jj > self.settings.MATRIX_SIZE:
-                    print("Skipping higher search " + str(ii) + "," + str(jj))
-                else:
-                    print("self.cells["+ str(ii) + "][" + str(jj) +"]: " + str(self.cells[ii][jj]))
-                    if self.cells[ii][jj] is None:
-                        return ii, jj
-                    else:
-                        print("Skipping full cell" + str(ii) + "," + str(jj))
-        print("No place found")
+    def find_place_for_son(self, ci, cj):
+        print("\nI'm trying to add a cell centered in " + str(ci) + "," + str(cj))
+        # self.debug_print_matrix()
 
+        a = ''
+        aa = max(ci-1, 0)
+        b = min(ci+2, self.settings.MATRIX_SIZE)
+        c = max(cj-1, 0)
+        d = min(cj+2, self.settings.MATRIX_SIZE)
+        for i in range(aa, b):
+            for j in range(c, d):
+                a += str(i) + "," + str(j)
+                a += str(self.cells[i][j]) + "\n"
+        print(a)
 
+        #
+        # for ii in range(i - 1, i + 2):
+        #     for jj in range(j - 1, j + 2):
+        #         if ii < 0 or jj < 0:
+        #             print("Skipping lower search " + str(ii) + "," + str(jj))
+        #         elif ii > self.settings.MATRIX_SIZE or jj > self.settings.MATRIX_SIZE:
+        #             print("Skipping higher search " + str(ii) + "," + str(jj))
+        #         else:
+        #             print("self.cells["+ str(ii) + "][" + str(jj) +"]: " + str(self.cells[ii][jj]))
+        #             if self.cells[ii][jj] is None:
+        #                 return ii, jj
+        #             else:
+        #                 print("Skipping full cell" + str(ii) + "," + str(jj))
+        # print("No place found")
