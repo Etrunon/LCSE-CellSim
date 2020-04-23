@@ -6,6 +6,16 @@ class Cell:
         self.dna = dna
         self.dna_duplicate = None
         self.neighbours_dna = []
+        self.status = "new"
+
+    def set_grown_status(self):
+        self.status = "grown"
+
+    def is_not_new(self):
+        return self.status != "new"
+
+    def reset_neighbours(self):
+        self.neighbours_dna = []
 
     def move(local_area):
         """

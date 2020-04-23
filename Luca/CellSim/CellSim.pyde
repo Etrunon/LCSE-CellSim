@@ -22,9 +22,6 @@ def setup():
 def draw():
     matrix.render()
 
-def redraw():
-    matrix.render()
-
 def keyPressed():
     matrix.reproduction_round()
     redraw()
