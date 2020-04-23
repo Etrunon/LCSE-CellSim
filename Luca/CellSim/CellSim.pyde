@@ -16,7 +16,7 @@ def setup():
     size((sett.MATRIX_SIZE * sett.CELL_SIZE) + 1, (sett.MATRIX_SIZE * sett.CELL_SIZE) + 1)
     # per evitare che venga richiamata 
     # piu volte in loop draw()
-    # noLoop()
+    noLoop()
 
 
 def draw():
@@ -27,3 +27,4 @@ def redraw():
 
 def keyPressed():
     matrix.reproduction_round()
+    redraw()

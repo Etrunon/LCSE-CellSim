@@ -26,11 +26,13 @@ class Matrix:
         noStroke()
         fill(255, 0, 0)
         for j in range(1, self.settings.MATRIX_SIZE):
+            s = ""
             for i in range(1, self.settings.MATRIX_SIZE):
-                print("self.cells[j][i]: " + str(self.cells[j][i]))
+                s += str(self.cells[j][i]) + " "
                 if self.cells[j][i] is not None:
+                    print("A!")
                     ellipse(self.settings.CELL_SIZE*i + self.settings.CELL_SIZE/2, self.settings.CELL_SIZE*j + self.settings.CELL_SIZE/2, self.settings.CELL_SIZE, self.settings.CELL_SIZE)
-            print("\n")
+            print(s+"\n")
 
     def add_cell(self, cell, x, y):
         self.cells[y+1][x+1] = cell
@@ -56,10 +58,16 @@ class Matrix:
                 if current_cell is not None and self.free_slots > 0:
                     print(1)
                     son = current_cell.reproduce()
-                    sons.append(self.find_place_for_son(son, i, j))
+                    relative_place = self.find_place_for_son(son, i, j)
+                    print("relative: " + str(relative_place[0]) + ":" + str(relative_place[1]))
+                    print("absolute: " + str(relative_place[0]+i) + ":" + str(relative_place[1]+j))
+                    sons.append((son, i+relative_place[0]-1, j+relative_place[1]-1))
 
-        for son in sons:
-            self.add_cell(son[0], son[1], son[2])
+        for son_tup in sons:
+            self.add_cell(son_tup[0], son_tup[1], son_tup[2])
+        # Add each new cell as neighbour
+        # ToDo check duplicates
+        self.setup_neighbours()
 
         print("k")
 
@@ -68,6 +76,6 @@ class Matrix:
             for jj in range(j - 1, j + 2):
                 print("ii " + str(ii) + " jj " + str(jj))
                 if self.cells[ii][jj] is None:
-                    return (son, ii, jj)
+                    return ii, jj
 
 
