@@ -5,13 +5,7 @@ from Settings import Settings
 sett = Settings()
 
 matrix = Matrix(sett)
-init_dna = ['R', 'R', 'R', 'R', 'R', 'R', 'R', 'G', 'G', 'G']
-matrix.add_cell(Cell(sett, init_dna), 1, 1)
-init_dna = ['G', 'B', 'B', 'B', 'R', 'R', 'R', 'G', 'G', 'G']
-matrix.add_cell(Cell(sett, init_dna), 10, 12)
-# matrix.add_cell(Cell(sett, init_dna), 5, 13)
-# matrix.add_cell(Cell(sett, init_dna), 13, 5)
-# matrix.add_cell(Cell(sett, init_dna), 32, 21)
+matrix.plant_individuals()
 
 def setup():
     sett = Settings()

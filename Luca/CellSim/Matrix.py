@@ -1,4 +1,8 @@
 import string
+import random
+
+from Cell import Cell
+
 
 class Matrix:
     def __init__(self, settings):
@@ -6,6 +10,7 @@ class Matrix:
         # Add some boundaries before and after each side to avoid getting out of the matrix
         self.cells = [[None for x in range(0, settings.MATRIX_SIZE)] for y in range(0, settings.MATRIX_SIZE)]
         self.free_slots = settings.MATRIX_SIZE ** 2
+        random.seed()
 
     def debug_print_matrix(self):
         for i in range(self.settings.MATRIX_SIZE):
@@ -109,3 +114,17 @@ class Matrix:
 
         # print("No place for son found")
         return None
+
+    def plant_individuals(self):
+        planted = 0
+        while planted < self.settings.STARTING_INDIVIDUALS:
+            x = random.randint(0, self.settings.MATRIX_SIZE-1)
+            y = random.randint(0, self.settings.MATRIX_SIZE-1)
+
+            if self.cells[x][y] is None:
+                dna = []
+                for _ in range(self.settings.DNA_LENGTH):
+                    dna.append(random.choice(["R", "G", "B"]))
+                new_cell = Cell(self.settings, dna)
+                self.add_cell(new_cell, x, y)
+                planted += 1

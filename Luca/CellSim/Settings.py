@@ -1,13 +1,14 @@
 class Settings:
     def __init__(self):
         self.DNA_POSSIBLE_CHARS = ["R", "G", "B", "r", "g", "b"]
-        self.DNA_LENGTH = 10
-        self.DEATH_RATE = 0.40
+        self.DNA_LENGTH = 20
+        self.DEATH_RATE = 0.30
+        self.STARTING_INDIVIDUALS = 20
 
         self.REPRODUCTION_MAX_DISTANCE = 4
 
         self.MATRIX_SIZE = 50  # numero di "slot" nella matrice
-        self.CELL_SIZE = 10  # dimensione in pixel della singola cella
+        self.CELL_SIZE = 15  # dimensione in pixel della singola cella
 
     def __str__(self):
         s = ""
