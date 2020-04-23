@@ -1,8 +1,11 @@
+import random
+
 class Cell:
     def __init__(self, settings, dna):
         self.settings = settings
         self.dna = dna
         self.dna_duplicate = None
+        self.neighbours_dna = []
 
     def move(local_area):
         """
@@ -29,11 +32,21 @@ class Cell:
 
         self.dna_duplicate = duplicated_seq
 
-    def reproduce(self, local_area):
-        choices = []
-        for i in range(9):
-            if i != 5:
-                choices.append(local_area[i].duplicated_dna)
-        return Cell()
+    def add_neighbour_dna(self, dna):
+        neighbours.append(dna)
 
+    def reproduce(self):
+        print(1.1)
+        partner = []
+        if len(self.neighbours_dna) > 0:
+            partner = random.choice(self.neighbours_dna)
+        print("partner: " + str(partner))
+        print("type(partner): " + str(type(partner)))
 
+        print("self.dna: " + str(self.dna))
+        print("type(self.dna): " + str(type(self.dna)))
+
+        join_dna = self.dna + partner
+        son_dna = random.sample(join_dna, self.settings.DNA_LENGTH)
+
+        return Cell(self.settings, son_dna)
