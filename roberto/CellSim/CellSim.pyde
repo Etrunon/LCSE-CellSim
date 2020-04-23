@@ -3,7 +3,7 @@ from Fiore import Fiore
 import random
 
 
-DIM_CAMPO = 100
+DIM_CAMPO = 50
 DIM_CELLA = 10
 INDICE_SOPRAVVIVENZA = 0.55
 APE_MAX_DIST = 5
