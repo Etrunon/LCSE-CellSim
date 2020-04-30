@@ -1,4 +1,5 @@
 import random
+from Settings import Settings
 from Dna import Dna
 
 class Flower:
@@ -6,10 +7,11 @@ class Flower:
         self.dna = dna
         self.x = x
         self.y = y
+        self.sett = Settings()
         
     def tryToSurvive(self, field):
         toss = random.randint(1, 100)
-        if(toss > 52):
+        if(toss < self.sett.DEATH_RATE):
             field[self.y, self.x] = None
             del self
             
@@ -17,7 +19,7 @@ class Flower:
         myTraits = self.dna.analizeTraits()
         otherTraits = other.dna.analizeTraits()
         difference = abs(myTraits[0] - otherTraits[0]) + abs(myTraits[1] - otherTraits[1]) + abs(myTraits[2] - otherTraits[2])
-        return difference <= 13
+        return difference <= self.sett.SIMILARITY_VALUE
         
     def combineDna(self, other):
         newDna = ""
